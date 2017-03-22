@@ -1,1 +1,1 @@
-web: stack runhaskell ./src/Main.hs
+web: runhaskell ./src/Main.hs
