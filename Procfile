@@ -1,1 +1,1 @@
-web: /app/dist/build/socket-service
+web: /app/dist/build/socket-service/socket-service
