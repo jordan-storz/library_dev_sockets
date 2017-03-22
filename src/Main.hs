@@ -3,6 +3,7 @@
 
 module Main where
 
+import qualified System.Environment as Environment
 import qualified Control.Concurrent as Concurrent
 import qualified Control.Exception  as Exception
 import qualified Control.Monad      as Monad
@@ -19,8 +20,9 @@ import qualified Safe
 
 main :: IO ()
 main = do
+  port <-  Environment.getEnv "PORT"
   state <- Concurrent.newMVar []
-  Warp.run 3200 $ WS.websocketsOr
+  Warp.run (toInt port) $ WS.websocketsOr
     WS.defaultConnectionOptions
     (wsApp state)
     httpApp
@@ -72,3 +74,6 @@ wsApp stateRef pendingConn = do
   Exception.finally
     (listen conn clientId stateRef)
     (disconnectClient clientId stateRef)
+
+toInt :: String -> Int
+toInt str = read str :: Int
